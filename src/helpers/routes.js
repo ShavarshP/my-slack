@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import Authentication from "../pages/register/authentication";
+import LogIn from "../pages/register/logIn";
 import SignUp from "../pages/register/signUp";
 
 export const useRoutes = (props) => {
@@ -8,7 +8,7 @@ export const useRoutes = (props) => {
     return (
       <Switch>
         <Route path="/login" exact>
-          <Authentication />
+          <LogIn />
         </Route>
         <Route path="/signup" exact>
           <SignUp />

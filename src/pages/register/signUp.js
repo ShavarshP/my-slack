@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { saveState } from "../../helpers/localStorage";
 import FormComponet from "./components/formComponet";
@@ -6,17 +6,25 @@ import FormComponet from "./components/formComponet";
 const SignUp = () => {
   const [usernameIsValid, setusernameIsValid] = useState(true);
   const [passwordIsValid, setpasswordIsValid] = useState(true);
+  const [emailIsValid, setemailIsValid] = useState(true);
+
   const history = useHistory();
   const onSubmit = (data) => {
-    return data.username && data.password && passwordIsValid && usernameIsValid
+    return data.email &&
+      data.username &&
+      data.password &&
+      passwordIsValid &&
+      usernameIsValid &&
+      emailIsValid
       ? Valid(data)
       : noValid();
   };
 
-  const login = async () => {
-    history.push("/home");
-  };
+  // const login = async () => {
+  //   history.push("/home");
+  // };
   const Valid = (data) => {
+    console.log(data);
     saveState(data, "auth");
     history.push("/home");
   };
@@ -24,16 +32,19 @@ const SignUp = () => {
   const noValid = () => {
     setpasswordIsValid(false);
     setusernameIsValid(false);
-    alert("krkin pordir");
+    setemailIsValid(false);
+    alert("invalid");
     return false;
   };
 
   const isValid = (form) => {
-    console.log("maladec");
     const name = /^([A-Za-zéàë]{2,40} ?)+$/;
+    const email = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     const password = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
     setusernameIsValid(name.test(form.username) || form.username === "");
     setpasswordIsValid(password.test(form.password) || form.password === "");
+    setemailIsValid(email.test(form.email) || form.email === "");
   };
 
   const form = (
@@ -42,23 +53,17 @@ const SignUp = () => {
       valid={{
         passwordIsValid: passwordIsValid,
         usernameIsValid: usernameIsValid,
+        emailIsValid: emailIsValid,
       }}
       onSubmit={onSubmit}
       type={"Sign up"}
+      emailI={true}
     />
   );
   return (
     <div className="min-h-screen flex  justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full space-y-8 mt-4">
         <div>{form}</div>
-        <div className="cursor-pointer flex justify-center rounded-lg text-sm bg-gray-300 h-9 border-2 border-purple-600 hover:bg-gray-400">
-          <button
-            onClick={login}
-            className="font-medium text-indigo-900 hover:text-indigo-900 "
-          >
-            googl
-          </button>
-        </div>
       </div>
     </div>
   );
