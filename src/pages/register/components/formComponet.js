@@ -17,7 +17,7 @@ const FormComponet = ({ isValid, valid, onSubmit, type }) => {
           htmlFor="Email"
           className="block uppercase tracking-wide text-grаy-700 text-xs font-bold mb-2"
         >
-          <span className="text-red-500">&nbsp;*</span>Email
+          <span className="text-red-500">&nbsp;*</span>email
         </label>
         <input
           type="email"

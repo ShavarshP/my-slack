@@ -12,7 +12,6 @@ export const validToken = async (request) => {
         Authorization: `Bearer ${token.token}`,
       }
     );
-    console.log(newData);
     return newData ? newData : false;
   } catch (error) {
     return false;
