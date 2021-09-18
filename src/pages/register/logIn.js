@@ -28,7 +28,6 @@ const LogIn = ({ verify }) => {
           password: data.password,
         }
       );
-      console.log(newData);
       saveState(newData, "auth");
       await verify();
     } catch (error) {}

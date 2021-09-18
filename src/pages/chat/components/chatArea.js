@@ -1,35 +1,12 @@
-const ChatArea = () => {
+const ChatArea = ({ user, sendMsg, msg, text, changeHendler }) => {
   const obj = {
-    name: "Akhil Gautam",
-    email: "akhil.gautam123@gmail.com",
-    msg: [
-      { my: true, msg: "malde" },
-      { my: false, msg: "malde mal ad sdfsd adsf adsf sadfasdf sadfa dasf" },
-      {
-        my: true,
-        msg: " adsf dsaf sad f dsaf  dsaf  dsfadasf  dasadsfads adsfalde",
-      },
-      {
-        my: true,
-        msg: " adsf dsaf sad f dsaf  dsaf  dsfadasf  dasadsfads adsfalde",
-      },
-      {
-        my: true,
-        msg: " adsf dsaf sad f dsaf  dsaf  dsfadasf  dasadsfads adsfalde",
-      },
-      {
-        my: false,
-        msg: " adsf dsaf sad f dsaf  dsaf  dsfadasf  dasadsfads adsfalde",
-      },
-      {
-        my: true,
-        msg: " adsf dsaf sad f dsaf  dsaf  dsfadasf  dasadsfads adsfalde",
-      },
-    ],
+    name: user.userName,
+    email: user.email,
+    msg: msg,
   };
 
-  const msgList = obj.msg.map((item) => (
-    <li className="py-5 border-b px-3 transition ">
+  const msgList = obj.msg.map((item, index) => (
+    <li key={index} className="py-5 border-b px-3 transition ">
       <span className="mr-4 ">{item.my ? "" : obj.name}</span>
       <p className={item.my ? "bg-gray-100 text-right" : "bg-green-50"}>
         {item.msg}
@@ -91,6 +68,8 @@ const ChatArea = () => {
           className="w-full bg-gray-50 p-2 rounded-xl"
           placeholder="Type your reply here..."
           rows="3"
+          onChange={changeHendler}
+          value={text}
         ></textarea>
         <div className="flex items-center justify-between p-2">
           <button className="h-6 w-6 text-gray-400">
@@ -108,7 +87,10 @@ const ChatArea = () => {
               />
             </svg>
           </button>
-          <button className="bg-purple-600 text-white px-6 py-2 rounded-xl">
+          <button
+            onClick={() => sendMsg()}
+            className="bg-purple-600 text-white px-6 py-2 rounded-xl"
+          >
             Reply
           </button>
         </div>

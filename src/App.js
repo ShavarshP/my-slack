@@ -13,8 +13,7 @@ const App = () => {
 
   const verify = async () => {
     const userData = await validToken(request);
-    console.log("bb", userData);
-    setUserId(userData.owner);
+    setUserId(userData);
     setLoading(false);
   };
 

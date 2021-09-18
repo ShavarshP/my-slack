@@ -5,7 +5,7 @@ import LogIn from "../pages/register/logIn";
 import SignUp from "../pages/register/signUp";
 
 export const useRoutes = (userId, verify) => {
-  if (!userId) {
+  if (!userId.data) {
     return (
       <Switch>
         <Route path="/login" exact>
@@ -18,13 +18,12 @@ export const useRoutes = (userId, verify) => {
       </Switch>
     );
   }
-
   return (
     <Switch>
-      <Route path="/chat" exact>
-        <Index />
+      <Route path="/chat/:id" exact>
+        <Index user={userId.data} allUsers={userId.allDataFilter} />
       </Route>
-      <Redirect to="/chat" />
+      <Redirect to={"/chat/" + userId.data.owner} />
     </Switch>
   );
 };

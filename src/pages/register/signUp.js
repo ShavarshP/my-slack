@@ -38,7 +38,6 @@ const SignUp = ({ verify }) => {
           password: data.password,
         }
       );
-      console.log(newData);
       saveState({ token: newData.token, userId: newData.userId }, "auth");
       await verify();
     } catch (error) {}

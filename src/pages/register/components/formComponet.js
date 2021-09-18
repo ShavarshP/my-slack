@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 
 const FormComponet = ({ isValid, valid, onSubmit, type }) => {
   const { register, handleSubmit } = useForm();
-  console.log(valid.usernameIsValid);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -18,7 +17,7 @@ const FormComponet = ({ isValid, valid, onSubmit, type }) => {
           htmlFor="Email"
           className="block uppercase tracking-wide text-grаy-700 text-xs font-bold mb-2"
         >
-          <span className="text-red-500">&nbsp;*</span>username
+          <span className="text-red-500">&nbsp;*</span>Email
         </label>
         <input
           type="email"
