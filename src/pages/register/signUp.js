@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import Loading from "../../components/loading/loading";
 import { saveState } from "../../helpers/localStorage";
+import { useHttp } from "../../hooks/useHttp";
 import FormComponet from "./components/formComponet";
 
-const SignUp = () => {
+const SignUp = ({ verify }) => {
   const [usernameIsValid, setusernameIsValid] = useState(true);
   const [passwordIsValid, setpasswordIsValid] = useState(true);
   const [emailIsValid, setemailIsValid] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const history = useHistory();
+  const { request } = useHttp();
+
   const onSubmit = (data) => {
     return data.email &&
       data.username &&
@@ -23,10 +26,24 @@ const SignUp = () => {
   // const login = async () => {
   //   history.push("/home");
   // };
-  const Valid = (data) => {
-    console.log(data);
-    saveState(data, "auth");
-    history.push("/home");
+  const Valid = async (data) => {
+    try {
+      setLoading(true);
+      const newData = await request(
+        "https://appslack.herokuapp.com/api/register/",
+        "POST",
+        {
+          email: data.email,
+          userName: data.username,
+          password: data.password,
+        }
+      );
+      console.log(newData);
+      saveState({ token: newData.token, userId: newData.userId }, "auth");
+      await verify();
+    } catch (error) {}
+
+    setLoading(false);
   };
 
   const noValid = () => {
@@ -61,11 +78,19 @@ const SignUp = () => {
     />
   );
   return (
-    <div className="min-h-screen flex  justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 mt-4">
-        <div>{form}</div>
-      </div>
-    </div>
+    <>
+      {loading ? (
+        <div style={{ marginTop: "20%", marginLeft: "24%" }}>
+          <Loading />
+        </div>
+      ) : (
+        <div className="min-h-screen flex  justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full space-y-8 mt-4">
+            <div>{form}</div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 export default SignUp;

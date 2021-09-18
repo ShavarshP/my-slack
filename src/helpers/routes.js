@@ -4,15 +4,15 @@ import Index from "../pages/chat";
 import LogIn from "../pages/register/logIn";
 import SignUp from "../pages/register/signUp";
 
-export const useRoutes = (props) => {
-  if (false) {
+export const useRoutes = (userId, verify) => {
+  if (!userId) {
     return (
       <Switch>
         <Route path="/login" exact>
-          <LogIn />
+          <LogIn verify={verify} />
         </Route>
         <Route path="/signup" exact>
-          <SignUp />
+          <SignUp verify={verify} />
         </Route>
         <Redirect to="/login" />
       </Switch>

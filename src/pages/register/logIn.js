@@ -1,21 +1,38 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import Loading from "../../components/loading/loading";
 import { saveState } from "../../helpers/localStorage";
+import { useHttp } from "../../hooks/useHttp";
 import FormComponet from "./components/formComponet";
 
-const LogIn = () => {
+const LogIn = ({ verify }) => {
   const [passwordIsValid, setpasswordIsValid] = useState(true);
   const [emailIsValid, setemailIsValid] = useState(true);
-  const history = useHistory();
+  const [loading, setLoading] = useState(false);
+
+  const { request } = useHttp();
+
   const onSubmit = (data) => {
     return data.email && data.password && passwordIsValid && emailIsValid
       ? Valid(data)
       : noValid();
   };
-  const Valid = (data) => {
-    console.log("aa", data);
-    saveState(data, "auth");
-    history.push("/home");
+  const Valid = async (data) => {
+    try {
+      setLoading(true);
+      const newData = await request(
+        "https://appslack.herokuapp.com/api/login/",
+        "POST",
+        {
+          email: data.email,
+          password: data.password,
+        }
+      );
+      console.log(newData);
+      saveState(newData, "auth");
+      await verify();
+    } catch (error) {}
+    setLoading(false);
   };
 
   const noValid = () => {
@@ -44,12 +61,21 @@ const LogIn = () => {
       type={"Log in"}
     />
   );
+
   return (
-    <div className="min-h-screen flex  justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 mt-4 ">
-        <div>{form}</div>
-      </div>
-    </div>
+    <>
+      {loading ? (
+        <div style={{ marginTop: "20%", marginLeft: "24%" }}>
+          <Loading />
+        </div>
+      ) : (
+        <div className="min-h-screen flex  justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md w-full space-y-8 mt-4 ">
+            <div>{form}</div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
