@@ -1,18 +1,42 @@
-const ChatArea = ({ user, sendMsg, msg, text, changeHendler }) => {
+import ChatManage from "./chatManage";
+
+const ChatArea = ({
+  user,
+  sendMsg,
+  msg,
+  text,
+  changeHendler,
+  group,
+  selected,
+  addGroup,
+  groupData,
+  sendFirstGroupMsg,
+  groupName,
+  changeGroupName,
+}) => {
   const obj = {
     name: user.userName,
     email: user.email,
     msg: msg,
   };
 
-  const msgList = obj.msg.map((item, index) => (
-    <li key={index} className="py-5 border-b px-3 transition ">
-      <span className="mr-4 ">{item.my ? "" : obj.name}</span>
-      <p className={item.my ? "bg-gray-100 text-right" : "bg-green-50"}>
-        {item.msg}
-      </p>
-    </li>
-  ));
+  const msgList = obj.msg.map((item, index) => {
+    item = JSON.parse(item);
+    return (
+      <li key={index} className="py-5 border-b px-3 transition ">
+        <span className="mr-4 ">
+          {obj.email === item.writes ? "" : item.writes}
+        </span>
+        <p
+          className={
+            obj.email === item.writes ? "bg-gray-100 text-right" : "bg-green-50"
+          }
+        >
+          {item.text}
+        </p>
+      </li>
+    );
+  });
   return (
     <section className="w-6/12 px-4 flex flex-col bg-white rounded-r-3xl">
       <div className="flex justify-between items-center h-48 border-b-2 mb-8">
@@ -60,41 +84,59 @@ const ChatArea = ({ user, sendMsg, msg, text, changeHendler }) => {
           </ul>
         </div>
       </div>
-      <section className="flex flex-col pt-1  bg-gray-50 h-full overflow-y-scroll">
-        <ul className="max-h-28">{msgList}</ul>
-      </section>
-      <section className="mt-6 border rounded-xl bg-gray-50 mb-3">
-        <textarea
-          className="w-full bg-gray-50 p-2 rounded-xl"
-          placeholder="Type your reply here..."
-          rows="3"
-          onChange={changeHendler}
-          value={text}
-        ></textarea>
-        <div className="flex items-center justify-between p-2">
-          <button className="h-6 w-6 text-gray-400">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={() => sendMsg()}
-            className="bg-purple-600 text-white px-6 py-2 rounded-xl"
+      {!group && selected ? (
+        <>
+          <section
+            className="flex flex-col pt-1  bg-gray-50 h-full overflow-y-scroll"
+            style={{ scrollPaddingBottom: "10px" }}
           >
-            Reply
-          </button>
-        </div>
-      </section>
+            <ul className="max-h-32 ">{msgList}</ul>
+          </section>
+          <section className="mt-6 border rounded-xl bg-gray-50 mb-3">
+            <textarea
+              className="w-full bg-gray-50 p-2 rounded-xl"
+              placeholder="Type your reply here..."
+              rows="3"
+              onChange={changeHendler}
+              value={text}
+            ></textarea>
+            <div className="flex items-center justify-between p-2">
+              <button className="h-6 w-6 text-gray-400">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                  />
+                </svg>
+              </button>
+              <button
+                onClick={() => sendMsg()}
+                className="bg-purple-600 text-white px-6 py-2 rounded-xl"
+              >
+                Reply
+              </button>
+            </div>
+          </section>
+        </>
+      ) : (
+        <section className="flex flex-col pt-1  bg-gray-50 h-full ">
+          <ChatManage
+            group={group}
+            addGroup={addGroup}
+            groupData={groupData}
+            sendFirstGroupMsg={sendFirstGroupMsg}
+            groupName={groupName}
+            changeGroupName={changeGroupName}
+          />
+        </section>
+      )}
     </section>
   );
 };

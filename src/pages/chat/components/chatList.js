@@ -5,7 +5,7 @@ const ChatList = ({ allUsers, selectedUser }) => {
         key={index}
         className="py-5 border-b px-3 transition hover:bg-indigo-100 cursor-pointer"
         onClick={() => {
-          selectedUser([item.email]);
+          selectedUser([item.email], item.userName, null);
         }}
       >
         <a className="flex justify-between items-center">
@@ -19,11 +19,11 @@ const ChatList = ({ allUsers, selectedUser }) => {
         key={index}
         className="py-5 border-b px-3 transition hover:bg-indigo-100 cursor-pointer"
         onClick={() => {
-          selectedUser(item.emails);
+          selectedUser(item.emails, item.name[0], item.msg);
         }}
       >
         <a className=" items-center">
-          {item.emails.map((mail, index) => (
+          {item.name.map((mail, index) => (
             <h6 className=" font-semibold" key={index}>
               {mail}
             </h6>

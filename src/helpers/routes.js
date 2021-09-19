@@ -21,7 +21,11 @@ export const useRoutes = (userId, verify) => {
   return (
     <Switch>
       <Route path="/chat/:id" exact>
-        <Index user={userId.data} allUsers={userId.allDataFilter} />
+        <Index
+          user={userId.data}
+          allUsers={userId.allDataFilter}
+          verify={verify}
+        />
       </Route>
       <Redirect to={"/chat/" + userId.data.owner} />
     </Switch>
