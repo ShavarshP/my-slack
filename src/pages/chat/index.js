@@ -144,6 +144,19 @@ const Index = ({ user, allUsers, verify }) => {
       ...groupData.slice(1),
     ]);
   };
+  const myPage = () => {
+    setSelected(null);
+  };
+  const removeFromList = (email) => {
+    console.log(email);
+    setGroupData([
+      {
+        name: [...groupData[0].name],
+        writes: [...groupData[0].writes.filter((item) => item !== email)],
+      },
+      ...groupData.slice(1).filter((item) => item !== email),
+    ]);
+  };
   return (
     <main className="flex w-full h-full justify-center shadow-lg rounded-3xl ">
       <Manue
@@ -165,6 +178,8 @@ const Index = ({ user, allUsers, verify }) => {
         sendFirstGroupMsg={sendFirstGroupMsg}
         groupName={groupData[0].name[0]}
         changeGroupName={changeGroupName}
+        myPage={myPage}
+        removeFromList={removeFromList}
       />
     </main>
   );

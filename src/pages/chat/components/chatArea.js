@@ -13,23 +13,21 @@ const ChatArea = ({
   sendFirstGroupMsg,
   groupName,
   changeGroupName,
+  myPage,
+  removeFromList,
 }) => {
-  const obj = {
-    name: user.userName,
-    email: user.email,
-    msg: msg,
-  };
-
-  const msgList = obj.msg.map((item, index) => {
+  const msgList = msg.map((item, index) => {
     item = JSON.parse(item);
     return (
       <li key={index} className="py-5 border-b px-3 transition ">
         <span className="mr-4 ">
-          {obj.email === item.writes ? "" : item.writes}
+          {user.email === item.writes ? "" : item.writes}
         </span>
         <p
           className={
-            obj.email === item.writes ? "bg-gray-100 text-right" : "bg-green-50"
+            user.email === item.writes
+              ? "bg-gray-100 text-right"
+              : "bg-green-50"
           }
         >
           {item.text}
@@ -40,13 +38,16 @@ const ChatArea = ({
   return (
     <section className="w-6/12 px-4 flex flex-col bg-white rounded-r-3xl">
       <div className="flex justify-between items-center h-48 border-b-2 mb-8">
-        <div className="flex space-x-4 items-center">
+        <div
+          onClick={myPage}
+          className="flex space-x-4 items-center cursor-pointer"
+        >
           <div className="flex justify-center items-center h-12 w-12 rounded-full overflow-hidden bg-red-400  ">
-            <h2 className="font-semibold text-lg">{obj.name[0]}</h2>
+            <h2 className="font-semibold text-lg">{user.userName[0]}</h2>
           </div>
           <div className="flex flex-col">
-            <h3 className="font-semibold text-lg">{obj.name}</h3>
-            <p className="text-light text-gray-400">{obj.email}</p>
+            <h3 className="font-semibold text-lg">{user.userName}</h3>
+            <p className="text-light text-gray-400">{user.email}</p>
           </div>
         </div>
         <div>
@@ -134,6 +135,7 @@ const ChatArea = ({
             sendFirstGroupMsg={sendFirstGroupMsg}
             groupName={groupName}
             changeGroupName={changeGroupName}
+            removeFromList={removeFromList}
           />
         </section>
       )}

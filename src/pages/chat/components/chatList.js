@@ -22,13 +22,25 @@ const ChatList = ({ allUsers, selectedUser }) => {
           selectedUser(item.emails, item.name[0], item.msg);
         }}
       >
-        <a className=" items-center">
-          {item.name.map((mail, index) => (
-            <h6 className=" font-semibold" key={index}>
-              {mail}
-            </h6>
-          ))}
-        </a>
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-semibold">{item.name}</h3>
+          <p className="text-md text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </p>
+        </div>
       </li>
     )
   );
