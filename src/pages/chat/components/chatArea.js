@@ -15,6 +15,7 @@ const ChatArea = ({
   changeGroupName,
   myPage,
   removeFromList,
+  changeWriterStatus,
 }) => {
   const msgList = msg.map((item, index) => {
     item = JSON.parse(item);
@@ -136,6 +137,7 @@ const ChatArea = ({
             groupName={groupName}
             changeGroupName={changeGroupName}
             removeFromList={removeFromList}
+            changeWriterStatus={changeWriterStatus}
           />
         </section>
       )}

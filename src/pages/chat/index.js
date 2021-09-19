@@ -46,10 +46,6 @@ const Index = ({ user, allUsers, verify }) => {
     });
   }, []);
 
-  const changeHendler = (e) => {
-    setText(e.target.value);
-  };
-
   const selectedUser = (email, name, msg) => {
     if (group) {
       if (
@@ -79,6 +75,10 @@ const Index = ({ user, allUsers, verify }) => {
     } else {
       setmsg([]);
     }
+  };
+
+  const changeHendler = (e) => {
+    setText(e.target.value);
   };
 
   const sendMsg = () => {
@@ -135,6 +135,7 @@ const Index = ({ user, allUsers, verify }) => {
       user.email,
     ]);
   };
+
   const changeGroupName = (e) => {
     setGroupData([
       {
@@ -144,9 +145,11 @@ const Index = ({ user, allUsers, verify }) => {
       ...groupData.slice(1),
     ]);
   };
+
   const myPage = () => {
     setSelected(null);
   };
+
   const removeFromList = (email) => {
     console.log(email);
     setGroupData([
@@ -157,6 +160,20 @@ const Index = ({ user, allUsers, verify }) => {
       ...groupData.slice(1).filter((item) => item !== email),
     ]);
   };
+
+  const changeWriterStatus = (email) => {
+    console.log(email);
+    setGroupData([
+      {
+        name: [...groupData[0].name],
+        writes: groupData[0].writes.some((item) => item === email)
+          ? groupData[0].writes.filter((item) => item !== email)
+          : [...groupData[0].writes, email],
+      },
+      ...groupData.slice(1),
+    ]);
+  };
+
   return (
     <main className="flex w-full h-full justify-center shadow-lg rounded-3xl ">
       <Manue
@@ -180,6 +197,7 @@ const Index = ({ user, allUsers, verify }) => {
         changeGroupName={changeGroupName}
         myPage={myPage}
         removeFromList={removeFromList}
+        changeWriterStatus={changeWriterStatus}
       />
     </main>
   );

@@ -6,8 +6,9 @@ const ChatManage = ({
   groupName,
   changeGroupName,
   removeFromList,
+  changeWriterStatus,
 }) => {
-  console.log(groupData);
+  console.log(groupData[0].writes);
 
   const participants = groupData.slice(1).map((item, index) => (
     <li key={index} className="py-2 border-b h-12 px-3 transition  ">
@@ -16,27 +17,54 @@ const ChatManage = ({
         {index === 0 ? (
           <></>
         ) : (
-          <p
-            onClick={() => {
-              removeFromList(item);
-            }}
-            className="text-md w-12 h-12 cursor-pointer p-3 relative -top-2 rounded-lg border-b-4 border-l-2 text-gray-400  hover:bg-yellow-200 "
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 "
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          <div className="flex">
+            <p
+              onClick={() => {
+                removeFromList(item);
+              }}
+              className="text-md w-12 h-12 cursor-pointer p-3 relative -top-2 rounded-lg border-b-4 border-l-2 text-gray-600  hover:bg-yellow-200 "
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-              />
-            </svg>
-          </p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 "
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </p>
+            <p
+              onClick={() => {
+                changeWriterStatus(item);
+              }}
+              className={
+                groupData[0].writes.some((item2) => item2 === item)
+                  ? "text-md ml-2 w-12 h-12 cursor-pointer p-3 relative -top-2 rounded-lg border-b-4 border-l-2 text-gray-600  hover:bg-red-400 "
+                  : "bg-red-400 text-md ml-2 w-12 h-12 cursor-pointer p-3 relative -top-2 rounded-lg border-b-4 border-l-2 text-gray-600  hover:bg-red-500 "
+              }
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+            </p>
+          </div>
         )}
       </div>
     </li>
