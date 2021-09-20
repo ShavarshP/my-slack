@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import Loading from "../../components/loading/loading";
 import { saveState } from "../../helpers/localStorage";
 import { useHttp } from "../../hooks/useHttp";
+
+import Loading from "../../components/loading/loading";
 import FormComponet from "./components/formComponet";
+
+const URL = "https://appslack.herokuapp.com/api/login/";
 
 const LogIn = ({ verify }) => {
   const [passwordIsValid, setpasswordIsValid] = useState(true);
@@ -17,17 +19,14 @@ const LogIn = ({ verify }) => {
       ? Valid(data)
       : noValid();
   };
+
   const Valid = async (data) => {
     try {
       setLoading(true);
-      const newData = await request(
-        "https://appslack.herokuapp.com/api/login/",
-        "POST",
-        {
-          email: data.email,
-          password: data.password,
-        }
-      );
+      const newData = await request(URL, "POST", {
+        email: data.email,
+        password: data.password,
+      });
       saveState(newData, "auth");
       await verify();
     } catch (error) {}

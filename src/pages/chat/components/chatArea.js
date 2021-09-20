@@ -1,4 +1,9 @@
+import { useEffect, useState } from "react";
+import { loadState } from "../../../helpers/localStorage";
+import { useHttp } from "../../../hooks/useHttp";
 import ChatManage from "./chatManage";
+
+const URL = "https://appslack.herokuapp.com/api/get_photo/";
 
 const ChatArea = ({
   user,
@@ -18,6 +23,36 @@ const ChatArea = ({
   changeWriterStatus,
   communicate,
 }) => {
+  const [myPhoto, setMyPoto] = useState(user.userName[0]);
+
+  const { request } = useHttp();
+  const getPhoto = async () => {
+    try {
+      const token = await loadState("auth");
+
+      const newData = await request(URL + token.userId, "get", null, {
+        Authorization: `Bearer ${token.token}`,
+      });
+      const photo = JSON.parse(newData.photo)[0];
+      console.log("maladec", JSON.parse(newData.photo)[0]);
+      setMyPoto(
+        photo ? (
+          <div className="w-16">
+            <img src={photo} />
+          </div>
+        ) : (
+          myPhoto
+        )
+      );
+    } catch (error) {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    getPhoto();
+  }, []);
+
   const msgList = msg.map((item, index) => {
     item = JSON.parse(item);
     return (
@@ -44,8 +79,8 @@ const ChatArea = ({
           onClick={myPage}
           className="flex space-x-4 items-center cursor-pointer"
         >
-          <div className="flex justify-center items-center h-12 w-12 rounded-full overflow-hidden bg-red-400  ">
-            <h2 className="font-semibold text-lg">{user.userName[0]}</h2>
+          <div className="flex justify-center items-center h-14 w-14 rounded-full overflow-hidden bg-gray-200 border-2 border-green-800 ">
+            <h2 className="font-semibold text-lg">{myPhoto}</h2>
           </div>
           <div className="flex flex-col">
             <h3 className="font-semibold text-lg">{user.userName}</h3>

@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const FormComponet = ({ isValid, valid, onSubmit, type }) => {
   const { register, handleSubmit } = useForm();
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

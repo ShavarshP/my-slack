@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import Loading from "../../components/loading/loading";
-import { saveState } from "../../helpers/localStorage";
 import { useHttp } from "../../hooks/useHttp";
+import { saveState } from "../../helpers/localStorage";
+
+import Loading from "../../components/loading/loading";
 import FormComponet from "./components/formComponet";
+
+const URL = "https://appslack.herokuapp.com/api/register/";
 
 const SignUp = ({ verify }) => {
   const [usernameIsValid, setusernameIsValid] = useState(true);
@@ -23,21 +26,14 @@ const SignUp = ({ verify }) => {
       : noValid();
   };
 
-  // const login = async () => {
-  //   history.push("/home");
-  // };
   const Valid = async (data) => {
     try {
       setLoading(true);
-      const newData = await request(
-        "https://appslack.herokuapp.com/api/register/",
-        "POST",
-        {
-          email: data.email,
-          userName: data.username,
-          password: data.password,
-        }
-      );
+      const newData = await request(URL, "POST", {
+        email: data.email,
+        userName: data.username,
+        password: data.password,
+      });
       saveState({ token: newData.token, userId: newData.userId }, "auth");
       await verify();
     } catch (error) {}
@@ -76,6 +72,7 @@ const SignUp = ({ verify }) => {
       emailI={true}
     />
   );
+
   return (
     <>
       {loading ? (

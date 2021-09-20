@@ -36,7 +36,6 @@ const Index = ({ user, allUsers, verify }) => {
   );
   const [chateList, setChatList] = useState(chatData);
 
-  console.log(JSON.parse(user.chatId));
   useEffect(() => {
     socket.emit("ROOM:CHAT", {
       msg: "",
