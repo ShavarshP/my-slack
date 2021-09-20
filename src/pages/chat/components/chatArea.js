@@ -16,6 +16,7 @@ const ChatArea = ({
   myPage,
   removeFromList,
   changeWriterStatus,
+  communicate,
 }) => {
   const msgList = msg.map((item, index) => {
     item = JSON.parse(item);
@@ -94,38 +95,42 @@ const ChatArea = ({
           >
             <ul className="max-h-32 ">{msgList}</ul>
           </section>
-          <section className="mt-6 border rounded-xl bg-gray-50 mb-3">
-            <textarea
-              className="w-full bg-gray-50 p-2 rounded-xl"
-              placeholder="Type your reply here..."
-              rows="3"
-              onChange={changeHendler}
-              value={text}
-            ></textarea>
-            <div className="flex items-center justify-between p-2">
-              <button className="h-6 w-6 text-gray-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+          {communicate ? (
+            <section className="mt-6 border rounded-xl bg-gray-50 mb-3">
+              <textarea
+                className="w-full bg-gray-50 p-2 rounded-xl"
+                placeholder="Type your reply here..."
+                rows="3"
+                onChange={changeHendler}
+                value={text}
+              ></textarea>
+              <div className="flex items-center justify-between p-2">
+                <button className="h-6 w-6 text-gray-400">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                    />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => sendMsg()}
+                  className="bg-purple-600 text-white px-6 py-2 rounded-xl"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                  />
-                </svg>
-              </button>
-              <button
-                onClick={() => sendMsg()}
-                className="bg-purple-600 text-white px-6 py-2 rounded-xl"
-              >
-                Reply
-              </button>
-            </div>
-          </section>
+                  Reply
+                </button>
+              </div>
+            </section>
+          ) : (
+            <></>
+          )}
         </>
       ) : (
         <section className="flex flex-col pt-1  bg-gray-50 h-full ">

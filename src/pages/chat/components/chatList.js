@@ -1,11 +1,25 @@
-const ChatList = ({ allUsers, selectedUser }) => {
+import { isSimilar } from "./func/isSimilar";
+
+const ChatList = ({
+  allUsers,
+  selectedUser,
+  selectedUserChat,
+  isCommunicate,
+  userEmail,
+}) => {
+  console.log(allUsers);
   const userList = allUsers.map((item, index) =>
     item.userName ? (
       <li
         key={index}
-        className="py-5 border-b px-3 transition hover:bg-indigo-100 cursor-pointer"
+        className={
+          item.email === selectedUserChat[0]
+            ? "py-5 border-b px-3 bg-indigo-100 transition hover:bg-indigo-200 cursor-pointer"
+            : "py-5 border-b px-3 transition hover:bg-indigo-200 cursor-pointer"
+        }
         onClick={() => {
           selectedUser([item.email], item.userName, null);
+          isCommunicate(true);
         }}
       >
         <a className="flex justify-between items-center">
@@ -17,9 +31,14 @@ const ChatList = ({ allUsers, selectedUser }) => {
     ) : (
       <li
         key={index}
-        className="py-5 border-b px-3 transition hover:bg-indigo-100 cursor-pointer"
+        className={
+          isSimilar(item.emails, selectedUserChat)
+            ? "py-5 border-b px-3 bg-indigo-100 transition hover:bg-indigo-200 cursor-pointer"
+            : "py-5 border-b px-3 transition hover:bg-indigo-100 cursor-pointer"
+        }
         onClick={() => {
           selectedUser(item.emails, item.name[0], item.msg);
+          isCommunicate(item.writes.some((item3) => item3 === userEmail));
         }}
       >
         <div className="flex justify-between items-center">

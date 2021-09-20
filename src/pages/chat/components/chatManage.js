@@ -8,8 +8,6 @@ const ChatManage = ({
   removeFromList,
   changeWriterStatus,
 }) => {
-  console.log(groupData[0].writes);
-
   const participants = groupData.slice(1).map((item, index) => (
     <li key={index} className="py-2 border-b h-12 px-3 transition  ">
       <div className="flex justify-between items-center">

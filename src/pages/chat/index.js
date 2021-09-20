@@ -1,9 +1,10 @@
+import { useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
+import { isSimilar } from "./components/func/isSimilar";
+
 import Manue from "./components/manue";
 import ChatList from "./components/chatList";
 import ChatArea from "./components/chatArea";
-import { useEffect, useMemo, useState } from "react";
-import { isSimilar } from "./components/func/isSimilar";
 
 const socket = io("https://appslack.herokuapp.com/");
 
@@ -12,6 +13,7 @@ const Index = ({ user, allUsers, verify }) => {
   const [text, setText] = useState("");
   const [group, setGroup] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [communicate, setCommunicate] = useState(false);
 
   const [groupData, setGroupData] = useState([
     {
@@ -24,6 +26,7 @@ const Index = ({ user, allUsers, verify }) => {
     () =>
       JSON.parse(user.chatId).map((item) => {
         return {
+          writes: item.options.writes,
           emails: item.emails.filter((item2) => item2 !== user.email),
           name: item.options.name.filter((item2) => item2 !== user.userName),
           msg: item.msg,
@@ -33,6 +36,7 @@ const Index = ({ user, allUsers, verify }) => {
   );
   const [chateList, setChatList] = useState(chatData);
 
+  console.log(JSON.parse(user.chatId));
   useEffect(() => {
     socket.emit("ROOM:CHAT", {
       msg: "",
@@ -64,7 +68,6 @@ const Index = ({ user, allUsers, verify }) => {
       ]);
       return;
     }
-    console.log(email, name, msg);
     setSelected([
       { name: [name, user.userName], writes: [...email, user.email] },
       ...email,
@@ -102,7 +105,6 @@ const Index = ({ user, allUsers, verify }) => {
 
   useEffect(() => {
     if (selected) {
-      console.log(JSON.parse(user.chatId));
       JSON.parse(user.chatId).forEach((element) => {
         if (isSimilar(element.emails, selected.slice(1))) {
           if (msg) {
@@ -151,7 +153,6 @@ const Index = ({ user, allUsers, verify }) => {
   };
 
   const removeFromList = (email) => {
-    console.log(email);
     setGroupData([
       {
         name: [...groupData[0].name],
@@ -162,7 +163,6 @@ const Index = ({ user, allUsers, verify }) => {
   };
 
   const changeWriterStatus = (email) => {
-    console.log(email);
     setGroupData([
       {
         name: [...groupData[0].name],
@@ -174,6 +174,14 @@ const Index = ({ user, allUsers, verify }) => {
     ]);
   };
 
+  const isCommunicate = (data) => {
+    setCommunicate(data);
+  };
+
+  const selectedUserChat = selected
+    ? selected.slice(1).filter((item) => item !== user.email)
+    : [];
+
   return (
     <main className="flex w-full h-full justify-center shadow-lg rounded-3xl ">
       <Manue
@@ -181,7 +189,13 @@ const Index = ({ user, allUsers, verify }) => {
         myUsersChat={myUsersChat}
         verify={verify}
       />
-      <ChatList allUsers={chateList} selectedUser={selectedUser} />
+      <ChatList
+        allUsers={chateList}
+        selectedUser={selectedUser}
+        selectedUserChat={selectedUserChat}
+        isCommunicate={isCommunicate}
+        userEmail={user.email}
+      />
       <ChatArea
         user={user}
         sendMsg={sendMsg}
@@ -198,6 +212,7 @@ const Index = ({ user, allUsers, verify }) => {
         myPage={myPage}
         removeFromList={removeFromList}
         changeWriterStatus={changeWriterStatus}
+        communicate={communicate}
       />
     </main>
   );
