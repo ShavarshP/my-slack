@@ -33,8 +33,9 @@ const ChatArea = ({
       const newData = await request(URL + token.userId, "get", null, {
         Authorization: `Bearer ${token.token}`,
       });
+
       const photo = JSON.parse(newData.photo)[0];
-      console.log("maladec", JSON.parse(newData.photo)[0]);
+
       setMyPoto(
         photo ? (
           <div className="w-16">

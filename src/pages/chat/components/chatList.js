@@ -90,7 +90,9 @@ const ChatList = ({
         <></>
       )}
 
-      <ul className="mt-6 max-h-screen">{userList}</ul>
+      <ul className="mt-6" style={{ maxHeight: "74vh" }}>
+        {userList}
+      </ul>
     </section>
   );
 };

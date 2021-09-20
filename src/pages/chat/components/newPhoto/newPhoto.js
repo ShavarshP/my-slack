@@ -39,7 +39,6 @@ const NewPhoto = ({ email }) => {
   };
 
   useEffect(() => {
-    console.log("ssst", imgContener);
     setPreview((prevState) => {
       return (
         <div className="preview">
@@ -63,16 +62,14 @@ const NewPhoto = ({ email }) => {
   }, []);
 
   const save = async () => {
-    // props.state.formData.img = imgContener;
-    // history.push("/add/step3");
-    const newData = await request(URL, "POST", {
+    await request(URL, "POST", {
       email: email,
       photo: imgContener,
     });
-    // /save_photo
-    console.log(imgContener, email);
+
     setIsSave(false);
   };
+
   return (
     <div className="flex justify-center mb-1 mt-2">
       {isSave ? (
