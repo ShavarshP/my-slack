@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import { loadState } from "../../../../helpers/localStorage";
 import { useHttp } from "../../../../hooks/useHttp";
 
-const URL = "https://appslack.herokuapp.com/api/save_photo/";
+const URL = "http://localhost:5000/api/save_photo/";
 
 const NewPhoto = ({ email }) => {
   const [preview, setPreview] = useState([]);
@@ -62,12 +63,21 @@ const NewPhoto = ({ email }) => {
   }, []);
 
   const save = async () => {
-    await request(URL, "POST", {
-      email: email,
-      photo: imgContener,
-    });
-
-    setIsSave(false);
+    try {
+      setIsSave(false);
+      const token = await loadState("auth");
+      await request(
+        URL,
+        "POST",
+        {
+          email: email,
+          photo: imgContener,
+        },
+        {
+          Authorization: `Bearer ${token.token}`,
+        }
+      );
+    } catch (error) {}
   };
 
   return (
