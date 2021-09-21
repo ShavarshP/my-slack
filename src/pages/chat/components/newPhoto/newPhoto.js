@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { loadState } from "../../../../helpers/localStorage";
 import { useHttp } from "../../../../hooks/useHttp";
 
-const URL = "http://localhost:5000/api/save_photo/";
+const URL = "https://appslack.herokuapp.com/api/save_photo/";
 
 const NewPhoto = ({ email }) => {
   const [preview, setPreview] = useState([]);
